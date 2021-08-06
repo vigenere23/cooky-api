@@ -5,7 +5,7 @@ tasks:
     desc: Rebuild ui (if changed) from docker compose
     dir: '..'
     cmds:
-      - docker compose build ui
+      - docker-compose build ui
     sources:
       - '**/*.*'
 
@@ -13,7 +13,7 @@ tasks:
     desc: Restart ui (and rebuild if changed) from docker compose
     dir: '..'
     cmds:
-      - docker compose up -d ui
+      - docker-compose up -d ui
     deps:
       - build
 
@@ -21,7 +21,7 @@ tasks:
     desc: Attach to docker compose logs for ui
     dir: '..'
     cmds:
-      - docker compose logs -f ui
+      - docker-compose logs -f ui
 
   start+logs:
     desc: Alias for 'start' followed by 'logs'

@@ -13,7 +13,7 @@ This project uses [Taskfile](https://taskfile.dev/#/) for managing task commands
 ### Running
 
 ```shell
-task up
+task start+logs
 ```
 
 This will destroy, build, and reup the Docker compose network and services.
