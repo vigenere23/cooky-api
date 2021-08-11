@@ -73,7 +73,7 @@ registered_routes = sorted(
 )
 print("\n*** ROUTES ***")
 for route in registered_routes:
-    methods = ','.join(filter(lambda m: m != 'HEAD' and m != 'OPTIONS', route.methods))
+    methods = ','.join(filter(lambda m: m not in ('HEAD', 'OPTIONS'), route.methods))
     padding = ' ' * (16 - len(methods))
     url = route.rule
     handler = route.endpoint
