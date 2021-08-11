@@ -3,7 +3,7 @@ load_dotenv()
 
 from flask import Flask
 from flask_cors import CORS
-from app.config import Config
+from app.config import config
 from app.mysql_connection import connect_to_mysql
 from app.infra.db.mysql_database_connection import MySQLDBConnection
 from app.infra.db.db_connector import DBConnector
@@ -26,9 +26,9 @@ from app.application.account.user_editing_usecase import UserEditingUseCase
 
 
 flask_app = Flask(__name__)
-flask_app.config.from_object(Config)
+flask_app.config.from_object(config.flask)
 
-mysql_connection = connect_to_mysql(Config.DATABASE)
+mysql_connection = connect_to_mysql(config.database)
 db_connection = MySQLDBConnection(mysql_connection)
 db = DBConnector(db_connection)
 transaction = SQLTransaction(db_connection)
