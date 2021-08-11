@@ -1,4 +1,6 @@
-# Contributing
+# Code documentation
+
+> ## ⚠️ THIS IS HIGHLY OUTDATED ⚠️
 
 ## Adding new route modules
 
