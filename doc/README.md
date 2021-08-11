@@ -2,5 +2,5 @@
 
 ## Table of content
 
-1. [API](./api.md)
+1. [API](./api/README.md)
 2. [Code](./code.md)

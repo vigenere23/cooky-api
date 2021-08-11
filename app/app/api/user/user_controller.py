@@ -11,7 +11,7 @@ routes = Blueprint('user', __name__, url_prefix='/user')
 @routes.route('', methods=['GET'])
 @jwt_required()
 @response.handleExceptions
-def getCurrentUser():
+def get_current_user():
     user = UserModel(
         username=current_identity.username,
         id=current_identity.id

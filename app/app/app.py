@@ -65,3 +65,16 @@ accounts_controller.register_routes(flask_app)
 auth.register_routes(flask_app)
 
 CORS(flask_app)
+
+
+registered_routes = sorted(
+    flask_app.url_map.iter_rules(),
+    key=lambda rule: rule.rule
+)
+print("\n*** ROUTES ***")
+for route in registered_routes:
+    methods = ','.join(filter(lambda m: m != 'HEAD' and m != 'OPTIONS', route.methods))
+    padding = ' ' * (16 - len(methods))
+    url = route.rule
+    handler = route.endpoint
+    print(f"  {methods}{padding}{url}  ->  {handler}")

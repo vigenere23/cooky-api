@@ -11,38 +11,38 @@ routes = Blueprint('users', __name__, url_prefix='/users')
 recipeRatingDao = RecipeRatingDao()
 
 
-@routes.route('/<int:id>', methods=['GET'])
+@routes.route('/<int:user_id>', methods=['GET'])
 @jwt_required()
 @response.handleExceptions
-def getUser(id):
-    data = user_finding_usecase.find_by_id(id)
+def get_user(user_id):
+    data = user_finding_usecase.find_by_id(user_id)
     return response.success(data)
 
 
-@routes.route('/<int:id>/recipes', methods=['GET'])
+@routes.route('/<int:user_id>/recipes', methods=['GET'])
 @jwt_required()
 @response.handleExceptions
-def getAllRecipesByUser(id):
-    recipes = recipe_finding_usecase.find_all(user_id=id)
+def get_user_recipes(user_id):
+    recipes = recipe_finding_usecase.find_all(user_id=user_id)
     return response.success(list(map(asdict, recipes)))
 
 
-@routes.route('/<int:id>/likes', methods=['GET'])
+@routes.route('/<int:user_id>/likes', methods=['GET'])
 @jwt_required()
 @response.handleExceptions
-def getLikeRecipes(id):
-    recipes = recipe_finding_usecase.find_all_liked_by(id)
+def get_user_liked_recipes(user_id):
+    recipes = recipe_finding_usecase.find_all_liked_by(user_id)
 
     return response.success(list(map(asdict, recipes)))
 
 
-@routes.route('/<int:id>/ratings', methods=['GET'])
+@routes.route('/<int:user_id>/ratings', methods=['GET'])
 @jwt_required()
 @response.handleExceptions
-def getRatings(id):
-    authentication_use_case.ensure_same_user(id, current_identity.id)
+def get_user_ratings(user_id):
+    authentication_use_case.ensure_same_user(user_id, current_identity.id)
 
-    data = recipeRatingDao.getRatingsByUser(id)
+    data = recipeRatingDao.getRatingsByUser(user_id)
     return response.success(data)
 
 

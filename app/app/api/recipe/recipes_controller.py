@@ -37,7 +37,7 @@ def index():
 @jwt_required()
 @response.handleExceptions
 @parse_body(RecipeCreationRequest)
-def addRecipe(request_body: RecipeCreationRequest):
+def create_recipe(request_body: RecipeCreationRequest):
     recipe_creation_dto = RecipeCreationDto(recipe={
         'id_User': current_identity.id,
         'name': request_body.name,
@@ -52,7 +52,7 @@ def addRecipe(request_body: RecipeCreationRequest):
 @routes.route('/<int:recipe_id>', methods=['GET'])
 @jwt_required()
 @response.handleExceptions
-def getRecipeById(recipe_id):
+def get_recipe(recipe_id):
     recipe = recipe_finding_usecase.find_by_id(recipe_id)
     user = user_finding_usecase.find_by_id(recipe.id_User)
     data = {
@@ -67,7 +67,7 @@ def getRecipeById(recipe_id):
 @routes.route('/<int:recipe_id>', methods=['DELETE'])
 @jwt_required()
 @response.handleExceptions
-def deleteRecipe(recipe_id):
+def delete_recipe(recipe_id):
     recipe_editing_usecase.delete_recipe(current_identity.id, recipe_id)
     return response.empty()
 
@@ -76,7 +76,7 @@ def deleteRecipe(recipe_id):
 @jwt_required()
 @response.handleExceptions
 @parse_body(RecipeEditionRequest)
-def modifyRecipeName(request_body: RecipeEditionRequest, recipe_id):
+def modify_recipe(request_body: RecipeEditionRequest, recipe_id):
     edition_dto = RecipeEditionDto(
         id=recipe_id,
         name=request_body.name,
@@ -91,7 +91,7 @@ def modifyRecipeName(request_body: RecipeEditionRequest, recipe_id):
 @jwt_required()
 @response.handleExceptions
 @parse_body(RecipeIngredientQuantityEditionRequest)
-def modifyIngredientQuantity(request_body: RecipeIngredientQuantityEditionRequest, recipe_id):
+def modify_recipe_ingredient_quantity(request_body: RecipeIngredientQuantityEditionRequest, recipe_id):
     recipe = recipe_finding_usecase.find_by_id(recipe_id)
 
     authentication_use_case.ensure_same_user(recipe.id_User, current_identity.id)
@@ -104,7 +104,7 @@ def modifyIngredientQuantity(request_body: RecipeIngredientQuantityEditionReques
 @routes.route('/<int:recipe_id>/ingredients', methods=['GET'])
 @jwt_required()
 @response.handleExceptions
-def getIngredientsByRecipe(recipe_id):
+def get_recipe_ingredients(recipe_id):
     data = []
     recipeIngredients = recipe_ingredient_dao.getIngredientsByRecipe(recipe_id)
     for recipeIngredient in recipeIngredients:
@@ -124,7 +124,7 @@ def getIngredientsByRecipe(recipe_id):
 @routes.route('/<int:recipe_id>/comments', methods=['GET'])
 @jwt_required()
 @response.handleExceptions
-def getRecipeComments(recipe_id):
+def get_recipe_comments(recipe_id):
     comments = comment_dao.getRecipeComments(recipe_id)
     data = []
     for comment in comments:
@@ -136,21 +136,28 @@ def getRecipeComments(recipe_id):
     return response.success(data)
 
 
-@routes.route('/<int:recipe_id>/likes', methods=['POST', 'DELETE'])
+@routes.route('/<int:recipe_id>/likes', methods=['POST'])
 @jwt_required()
 @response.handleExceptions
-def likeRecipe(recipe_id):
+def like_recipe(recipe_id):
     likeRecipeModel = LikeRecipeModel(
         id_User=current_identity.id,
         id_Recipe=recipe_id
     )
+    result = like_recipe_dao.save(likeRecipeModel)
+    return response.success(result)
 
-    if request.method == 'POST':
-        result = like_recipe_dao.save(likeRecipeModel)
-        return response.success(result)
-    else:
-        like_recipe_dao.delete(likeRecipeModel)
-        return response.empty()
+
+@routes.route('/<int:recipe_id>/likes', methods=['DELETE'])
+@jwt_required()
+@response.handleExceptions
+def unlike_recipe(recipe_id):
+    likeRecipeModel = LikeRecipeModel(
+        id_User=current_identity.id,
+        id_Recipe=recipe_id
+    )
+    like_recipe_dao.delete(likeRecipeModel)
+    return response.empty()
 
 
 @routes.route('/<int:recipe_id>/ratings', methods=['POST'])
@@ -187,7 +194,7 @@ def edit_recipe_rating(request_body: RatingCreationRequest, recipe_id):
 @jwt_required()
 @response.handleExceptions
 @parse_body(CommentCreationRequest)
-def addCommentRecipe(request_body: CommentCreationRequest, recipe_id):
+def add_recipe_comment(request_body: CommentCreationRequest, recipe_id):
     commentModel = CommentModel(
         id_User=current_identity.id,
         id_Recipe=recipe_id,

@@ -16,7 +16,7 @@ routes = Blueprint('account', __name__, url_prefix='/user/account')
 @routes.route('', methods=['GET'])
 @jwt_required()
 @response.handleExceptions
-def getAccount():
+def get_current_user_account():
     account = user_finding_usecase.find_account_of(current_identity.id)
     address = user_finding_usecase.find_adress_for_account(account.id)
     response_data = AccountResponse(
@@ -35,7 +35,7 @@ def getAccount():
 @jwt_required()
 @response.handleExceptions
 @parse_body(AccountEditionRequest)
-def modifyEmail(request_body: AccountEditionRequest):
+def modify_current_user_account(request_body: AccountEditionRequest):
     try:
         account_edition_dto = AccountInfoEditionDto(
             email=request_body.email,
@@ -57,11 +57,20 @@ def modifyEmail(request_body: AccountEditionRequest):
         return response.error(e)
 
 
+@routes.route('/address', methods=['GET'])
+@jwt_required()
+@response.handleExceptions
+def get_current_user_address():
+    account = user_finding_usecase.find_account_of(current_identity.id)
+    address = user_finding_usecase.find_adress_for_account(account.id)
+    return response.success(address)
+
+
 @routes.route('/address', methods=['PATCH'])
 @jwt_required()
 @response.handleExceptions
 @parse_body(AddressEditionRequest)
-def modifyCountry(request_body: AddressEditionRequest):
+def modify_current_user_address(request_body: AddressEditionRequest):
     try:
         address_edition_dto = AddressInfoEditionDto(
             country=request_body.country,
@@ -74,15 +83,6 @@ def modifyCountry(request_body: AddressEditionRequest):
         return response.success(address)
     except Exception as e:
         return response.error(e)
-
-
-@routes.route('/address', methods=['GET'])
-@jwt_required()
-@response.handleExceptions
-def getAddress():
-    account = user_finding_usecase.find_account_of(current_identity.id)
-    address = user_finding_usecase.find_adress_for_account(account.id)
-    return response.success(address)
 
 
 def register_routes(flask_app: Flask):

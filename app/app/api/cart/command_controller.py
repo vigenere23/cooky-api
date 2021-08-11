@@ -16,7 +16,7 @@ commandDao = CommandDao()
 @routes.route('', methods=['GET'])
 @jwt_required()
 @response.handleExceptions
-def getUserCommands():
+def get_current_user_commands():
     commands = commandDao.getUserCommands(current_identity.id)
     data = []
     for command in commands:
@@ -31,7 +31,7 @@ def getUserCommands():
 @routes.route('', methods=['POST'])
 @jwt_required()
 @response.handleExceptions
-def createCommand():
+def create_current_user_command():
     cart = cartDao.get_cart_of(current_identity.id)
 
     commandModel = CommandModel(

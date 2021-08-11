@@ -52,7 +52,7 @@ def get_current_user_cart_items():
 @jwt_required()
 @response.handleExceptions
 @parse_body(CartItemCreationRequest)
-def addItemToCart(request_body: CartItemCreationRequest):
+def add_current_user_cart_item(request_body: CartItemCreationRequest):
     cart = cartDao.get_cart_of(current_identity.id)
 
     cartItemModel = CartItemModel(
@@ -64,25 +64,25 @@ def addItemToCart(request_body: CartItemCreationRequest):
     return response.success(result)
 
 
-@routes.route('/items/<int:id_Ingredient>', methods=['DELETE'])
+@routes.route('/items/<int:ingredient_id>', methods=['DELETE'])
 @jwt_required()
 @response.handleExceptions
-def deleteItemFromCart(id_Ingredient):
+def remove_current_user_cart_item(ingredient_id):
     cart = cartDao.get_cart_of(current_identity.id)
 
-    cartItemDao.deleteIngredient(cart.id, id_Ingredient)
+    cartItemDao.deleteIngredient(cart.id, ingredient_id)
     return response.success("", status=204)
 
 
-@routes.route('/items/<int:id_Ingredient>', methods=['PUT'])
+@routes.route('/items/<int:ingredient_id>', methods=['PUT'])
 @jwt_required()
 @response.handleExceptions
 @parse_body(CartItemEditionRequest)
-def modifyRecipeName(request_body: CartItemEditionRequest, id_Ingredient):
+def modify_current_user_cart_item(request_body: CartItemEditionRequest, ingredient_id):
     cart = cartDao.get_cart_of(current_identity.id)
 
     result = cartItemDao.modifyQuantity(
-        request_body.multiplier, cart.id, id_Ingredient)
+        request_body.multiplier, cart.id, ingredient_id)
 
     return response.success(result)
 

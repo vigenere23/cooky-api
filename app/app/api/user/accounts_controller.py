@@ -13,7 +13,7 @@ routes = Blueprint('accounts', __name__, url_prefix='/accounts')
 @routes.route('', methods=['POST'])
 @response.handleExceptions
 @parse_body(AccountCreationRequest)
-def signup_route(request_body: AccountCreationRequest):
+def create_account(request_body: AccountCreationRequest):
     if not request_body.user:
         return response.error('user field cannot be empty', status=400)
 
