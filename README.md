@@ -27,7 +27,7 @@ This will destroy, build, and reup the Docker compose network and services.
 **Test credentials**:
 
 - username: test
-- passwordL test
+- password: test
 
 ## Documentation
 
