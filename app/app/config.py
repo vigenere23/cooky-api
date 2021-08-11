@@ -1,9 +1,11 @@
 import os
+from datetime import timedelta
 
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY')
     JWT_AUTH_URL_RULE = '/login'
+    JWT_EXPIRATION_DELTA = timedelta(minutes=30)
     DATABASE = {
         'user': 'api',
         'password': os.environ.get('MYSQL_PASSWORD'),
