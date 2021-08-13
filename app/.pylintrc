@@ -16,7 +16,6 @@ disable=missing-module-docstring,
         no-else-return,
         inconsistent-return-statements,
         line-too-long,
-        cyclic-import,
         duplicate-code
 
 [FORMAT]

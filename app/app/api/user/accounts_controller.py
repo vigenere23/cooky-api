@@ -4,7 +4,7 @@ from app.api import response
 from app.api.requests import parse_body
 from app.api.user.account_creation_request import AccountCreationRequest
 from app.application.account.signup_dto import AccountInfo, AddressInfo, SignupDto, UserInfo
-from app.app import signup_usecase
+from app.context import signup_usecase
 
 
 routes = Blueprint('accounts', __name__, url_prefix='/accounts')

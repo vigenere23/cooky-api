@@ -1,6 +1,6 @@
 from flask.app import Flask
 from flask_jwt import JWT
-from app.app import authentication_use_case
+from app.context import authentication_use_case
 from app.api import response
 
 def register_routes(flask_app: Flask):

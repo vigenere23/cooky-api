@@ -2,79 +2,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from flask import Flask
-from flask_cors import CORS
 from app.config import config
-from app.mysql_connection import connect_to_mysql
-from app.infra.db.mysql_database_connection import MySQLDBConnection
-from app.infra.db.db_connector import DBConnector
-from app.infra.db.sql_transaction import SQLTransaction
-from app.infra.db.refactor.mysql_db_connection import MysqlDBConnection
-from app.infra.db.refactor.recipe.mysql_recipe_repository import MySQLRecipeRepository
-from app.infra.db.refactor.recipe.recipe_dao import RecipeDao
-from app.infra.db.refactor.recipe.recipe_ingredient_dao import RecipeIngredientDao
-from app.infra.db.refactor.user.address_dao import AddressDao
-from app.infra.db.refactor.user.user_dao import UserDao
-from app.infra.db.refactor.user.account_dao import AccountDao
-from app.infra.db.refactor.user.mysql_user_repository import MysqlUserRepository
-from app.application.recipe.recipe_editing_usecase import RecipeEditingUseCase
-from app.application.authentication import AuthenticationUseCase
-from app.application.account.user_finding_usecase import UserFindingUseCase
-from app.application.recipe.recipe_finding_usecase import RecipeFindingUseCase
-from app.application.recipe.recipe_creation_usecase import RecipeCreationUseCase
-from app.application.account.signup_usecase import SignupUseCase
-from app.application.account.user_editing_usecase import UserEditingUseCase
+from app.routes import initialize_routes, print_route_infos
 
 
 flask_app = Flask(__name__)
 flask_app.config.from_object(config.flask)
 
-mysql_connection = connect_to_mysql(config.database)
-db_connection = MySQLDBConnection(mysql_connection)
-db = DBConnector(db_connection)
-transaction = SQLTransaction(db_connection)
-
-db_connection_2 = MysqlDBConnection(mysql_connection)
-recipe_repository = MySQLRecipeRepository(db_connection_2, RecipeDao(), RecipeIngredientDao())
-user_repository = MysqlUserRepository(db_connection_2, AccountDao(), UserDao(), AddressDao())
-
-authentication_use_case = AuthenticationUseCase(user_repository)
-recipe_creation_usecase = RecipeCreationUseCase(recipe_repository)
-recipe_finding_usecase = RecipeFindingUseCase(recipe_repository)
-recipe_editing_usecase = RecipeEditingUseCase(authentication_use_case, recipe_repository)
-signup_usecase = SignupUseCase(user_repository)
-user_finding_usecase = UserFindingUseCase(user_repository)
-user_editing_usecase = UserEditingUseCase(user_repository)
-
-
-from app.api.main import main_controller
-from app.api import ingredients_controller, auth
-from app.api.recipe import recipes_controller
-from app.api.cart import cart_controller, command_controller
-from app.api.user import user_controller, users_controller, account_controller, accounts_controller
-
-
-main_controller.register_routes(flask_app)
-ingredients_controller.register_routes(flask_app)
-cart_controller.register_routes(flask_app)
-command_controller.register_routes(flask_app)
-recipes_controller.register_routes(flask_app)
-user_controller.register_routes(flask_app)
-users_controller.register_routes(flask_app)
-account_controller.register_routes(flask_app)
-accounts_controller.register_routes(flask_app)
-auth.register_routes(flask_app)
-
-CORS(flask_app)
-
-
-registered_routes = sorted(
-    flask_app.url_map.iter_rules(),
-    key=lambda rule: rule.rule
-)
-print("\n*** ROUTES ***")
-for route in registered_routes:
-    methods = ','.join(filter(lambda m: m not in ('HEAD', 'OPTIONS'), route.methods))
-    padding = ' ' * (16 - len(methods))
-    url = route.rule
-    handler = route.endpoint
-    print(f"  {methods}{padding}{url}  ->  {handler}")
+initialize_routes(flask_app)
+print_route_infos(flask_app.url_map)

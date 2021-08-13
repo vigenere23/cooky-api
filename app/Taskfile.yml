@@ -6,9 +6,8 @@ tasks:
     dir: '.'
     desc: 'Creates virtual env and installs dependencies'
     cmds:
-      - python -m venv .venv
-      - task: load
-      - pip install -r requirements.txt
+      - python3 -m venv .venv
+      - source "$PWD/.venv/bin/activate" && pip install --upgrade pip && pip install -r requirements.txt
     status:
       - test -d .venv
 
@@ -23,12 +22,12 @@ tasks:
   test:
     desc: Run app tests
     cmds:
-      - python -m unittest discover -s test -p '*_test.py'
+      - source $(task load:mac) && python -m unittest discover -s test -p '*_test.py'
 
   lint:
     desc: Run app linting
     cmds:
-      - pylint app && pylint test
+      - source $(task load:mac) && pylint app && pylint test
 
   build:
     desc: Rebuild app (if changed) from docker compose

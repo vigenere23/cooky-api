@@ -7,7 +7,7 @@ from app.api.requests import parse_body
 from app.api.user.user_responses import AccountResponse, AddressResponse
 from app.api.user.user_edition_request import AccountEditionRequest, AddressEditionRequest
 from app.application.account.user_edition_dto import AccountInfoEditionDto, AddressInfoEditionDto
-from app.app import user_finding_usecase, user_editing_usecase
+from app.context import user_finding_usecase, user_editing_usecase
 
 
 routes = Blueprint('account', __name__, url_prefix='/user/account')

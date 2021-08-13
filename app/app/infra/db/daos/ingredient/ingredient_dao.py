@@ -1,4 +1,4 @@
-from app.app import db
+from app.context import db
 from app.infra.db.models.ingredient import IngredientModel
 from app.infra.db.daos.base_dao import BaseDao
 

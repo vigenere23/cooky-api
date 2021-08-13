@@ -11,7 +11,7 @@ from app.application.recipe.recipe_creation_dto import RecipeCreationDto
 from app.infra.db.daos.recipe import RecipeIngredientDao, LikeRecipeDao, RecipeRatingDao, RecipeCommentDao
 from app.infra.db.models.recipe import LikeRecipeModel, RatingModel, CommentModel
 from app.infra.db.daos.ingredient import IngredientDao, QuantityUnitDao
-from app.app import recipe_creation_usecase, recipe_finding_usecase, recipe_editing_usecase, authentication_use_case, user_finding_usecase
+from app.context import recipe_creation_usecase, recipe_finding_usecase, recipe_editing_usecase, authentication_use_case, user_finding_usecase
 
 routes = Blueprint('recipes', __name__, url_prefix='/recipes')
 like_recipe_dao = LikeRecipeDao()
