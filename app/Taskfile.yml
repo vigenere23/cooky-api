@@ -22,10 +22,20 @@ tasks:
   test:
     desc: Run app tests
     cmds:
+      - python -m unittest discover -s test -p '*_test.py'
+
+  test:venv:
+    desc: Run app tests (within virtual env)
+    cmds:
       - source $(task load:mac) && python -m unittest discover -s test -p '*_test.py'
 
   lint:
     desc: Run app linting
+    cmds:
+      - pylint app && pylint test
+
+  lint:venv:
+    desc: Run app linting (within virtual env)
     cmds:
       - source $(task load:mac) && pylint app && pylint test
 
