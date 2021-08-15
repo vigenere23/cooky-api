@@ -13,7 +13,7 @@ tasks:
 
   venv:
     dir: '.'
-    desc: 'Loads the virtual environment. *Run using "source $(task venv)"*'
+    desc: 'Loads the virtual environment. *Run using "source $(task app:venv)"*'
     cmds:
       - echo "$PWD/.venv/bin/activate"
     deps:
@@ -27,7 +27,7 @@ tasks:
   test:
     desc: Run app tests (within virtual env)
     cmds:
-      - source $(task venv) && python -m unittest discover -s test -p '*_test.py'
+      - source $(task app:venv) && python -m unittest discover -s test -p '*_test.py'
 
   lint:ci:
     desc: Run app linting
@@ -37,7 +37,7 @@ tasks:
   lint:
     desc: Run app linting (within virtual env)
     cmds:
-      - source $(task venv) && pylint app && pylint test
+      - source $(task app:venv) && pylint app && pylint test
 
   build:
     desc: Rebuild app (if changed) from docker compose
@@ -70,4 +70,4 @@ tasks:
   migration:apply:
     desc: Migrate database
     cmds:
-      - source $(task venv) && python scripts/migrate.py
+      - source $(task app:venv) && python scripts/migrate.py
