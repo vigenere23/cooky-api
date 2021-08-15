@@ -1,0 +1,74 @@
+version: '3'
+
+tasks:
+
+  setup:
+    dir: '.'
+    desc: 'Creates virtual env and installs dependencies'
+    cmds:
+      - python3 -m venv .venv
+      - source "$PWD/.venv/bin/activate" && pip install --upgrade pip && pip install -r requirements.txt
+    status:
+      - test -d .venv
+
+  venv:
+    dir: '.'
+    desc: 'Loads the virtual environment. *Run using "source $(task app:venv)"*'
+    cmds:
+      - echo "$PWD/.venv/bin/activate"
+    silent: true
+    deps:
+      - setup
+
+  test:ci:
+    desc: Run app tests
+    cmds:
+      - python -m unittest discover -s test -p '*_test.py'
+
+  test:
+    desc: Run app tests (within virtual env)
+    cmds:
+      - source $(task app:venv) && python -m unittest discover -s test -p '*_test.py'
+
+  lint:ci:
+    desc: Run app linting
+    cmds:
+      - pylint app && pylint test
+
+  lint:
+    desc: Run app linting (within virtual env)
+    cmds:
+      - source $(task app:venv) && pylint app && pylint test
+
+  build:
+    desc: Rebuild app (if changed) from docker compose
+    dir: '..'
+    cmds:
+      - docker-compose build app
+    sources:
+      - '**/*.*'
+
+  start:
+    desc: Restart app (and rebuild if changed) from docker compose
+    dir: '..'
+    cmds:
+      - docker-compose up -d app
+    deps:
+      - build
+
+  logs:
+    desc: Attach to docker compose logs for app
+    dir: '..'
+    cmds:
+      - docker-compose logs -f app
+
+  start+logs:
+    desc: Alias for 'start' followed by 'logs'
+    cmds:
+      - task: start
+      - task: logs
+
+  migration:apply:
+    desc: Migrate database
+    cmds:
+      - source $(task app:venv) && python scripts/migrate.py
