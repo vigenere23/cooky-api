@@ -1,4 +1,4 @@
-cp ./init/privileges.sql /docker-entrypoint-initdb.d
+# cp ./init/privileges.sql /docker-entrypoint-initdb.d
 
 filename=/docker-entrypoint-initdb.d/0_users.sql
 echo "" > $filename
