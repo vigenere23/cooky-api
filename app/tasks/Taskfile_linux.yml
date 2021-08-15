@@ -16,6 +16,7 @@ tasks:
     desc: 'Loads the virtual environment. *Run using "source $(task app:venv)"*'
     cmds:
       - echo "$PWD/.venv/bin/activate"
+    silent: true
     deps:
       - setup
 
