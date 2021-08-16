@@ -67,12 +67,12 @@ def create_accounts(n: int, test_account: bool = True):
     if test_account:
         create_account(username="test", password="test")
 
-    for _ in range(n):
-        create_account()
+    usernames = random.sample(words, n)
+    for username in usernames:
+        create_account(username=username)
 
-def create_account(username: str = None, password: str = None):
-    if not password or not username:
-        username = random.choice(words)
+def create_account(username: str, password: str = None):
+    if not password:
         password = random.choice(words)
 
     firstName = random.choice(words)

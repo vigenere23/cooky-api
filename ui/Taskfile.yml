@@ -7,7 +7,7 @@ tasks:
     cmds:
       - docker-compose build ui
     sources:
-      - '**/*.*'
+      - './ui/**/*.*'
 
   start:
     desc: Restart ui (and rebuild if changed) from docker compose

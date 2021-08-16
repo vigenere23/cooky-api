@@ -42,10 +42,10 @@ jobs:
           pip install -r requirements.txt
 
       - name: Linting
-        run: task app:lint:ci
+        run: task app:lint
 
       - name: Testing
-        run: task app:test:ci
+        run: task app:test
 
 
   build-ui:
