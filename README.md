@@ -29,9 +29,9 @@ This will destroy, build, and reup the Docker compose network and services.
 - username: test
 - password: test
 
-## Documentation
+## API Documentation
 
-Available [here](./doc/README.md)
+Available [here](./api_doc/README.md).
 
 ## Contributors
 
