@@ -5,7 +5,7 @@ tasks:
     desc: Rebuild db (if changed) from docker compose
     dir: '..'
     cmds:
-      - docker-compose rm -s -v -f db
+      # - docker-compose rm -s -v -f db
       - docker-compose build db
     sources:
       - '**/*.*'

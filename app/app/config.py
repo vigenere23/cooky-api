@@ -29,15 +29,15 @@ class Config:
 
 config = Config(
     flask=FlaskConfig(
-        SECRET_KEY = os.environ.get('SECRET_KEY'),
+        SECRET_KEY = os.getenv('SECRET_KEY', 'some-secret'),
         JWT_AUTH_URL_RULE = '/login',
         JWT_EXPIRATION_DELTA = timedelta(minutes=30)
     ),
     database=DatabaseConfig(
         user='api',
-        password=os.environ.get('MYSQL_PASSWORD'),
-        host=os.environ.get('DB_HOST'),
-        port=os.environ.get('DB_PORT'),
+        password=os.getenv('MYSQL_PASSWORD', 'api'),
+        host=os.getenv('DB_HOST', 'localhost'),
+        port=os.getenv('DB_PORT', '8082'),
         database='projet',
         connection_timeout=5,
         use_pure=True

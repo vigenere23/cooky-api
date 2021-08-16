@@ -69,6 +69,21 @@ tasks:
       - task: logs
 
   migration:apply:
-    desc: Migrate database
+    desc: Apply new database changes
     cmds:
       - source $(task app:venv) && python scripts/migrate.py
+
+  migration:rollback:
+    desc: Rollback last database change
+    cmds:
+      - source $(task app:venv) && python scripts/rollback.py
+
+  migration:new:
+    desc: Create new database migration
+    cmds:
+      - source $(task app:venv) && yoyo new ./migrations -m "{{.DESC}}"
+
+  populate:
+    desc: Fill database with fake data
+    cmds:
+      - source $(task app:venv) && python ./scripts/fill_db.py
