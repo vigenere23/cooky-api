@@ -25,7 +25,11 @@ class MySQLExecutor:
         return self.find_from_query(query, data=data)
 
 
-    def find_all(self, table_name: str, condition: MysqlCondition, limit: int = None):
+    def find_all(self, table_name: str, condition: MysqlCondition = None, limit: int = None):
+        if not condition:
+            query = f'SELECT {table_name}.* FROM {table_name}'
+            return self.find_all_from_query(query, limit=limit)
+
         query = f'SELECT {table_name}.* FROM {table_name} {condition.query()}'
         data = condition.data()
 

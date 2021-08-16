@@ -82,3 +82,8 @@ tasks:
     desc: Create new database migration
     cmds:
       - source $(task app:venv) && yoyo new ./migrations -m "{{.DESC}}"
+
+  populate:
+    desc: Fill database with fake data
+    cmds:
+      - source $(task app:venv) && python ./scripts/fill_db.py

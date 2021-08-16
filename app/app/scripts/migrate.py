@@ -8,7 +8,7 @@ import os
 user = 'root'
 password = os.getenv('MYSQL_ROOT_PASSWORD')
 database = 'projet'
-url = 'localhost:8082' # TODO get from env var
+url = 'localhost:8082'
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 backend = get_backend(f'mysql://{user}:{password}@{url}/{database}')
