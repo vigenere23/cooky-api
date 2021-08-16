@@ -1,8 +1,8 @@
-from app.infra.db.refactor.mysql_condition import MysqlCondition
 from dataclasses import asdict
-from app.infra.db.refactor.mysql_model import MysqlModel
 from typing import Any, Dict, List, Optional, Tuple, Union
 from mysql.connector.cursor import CursorBase
+from app.infra.db.refactor.mysql_model import MysqlModel
+from app.infra.db.refactor.mysql_condition import MysqlCondition
 
 
 class MySQLExecutor:
@@ -78,6 +78,11 @@ class MySQLExecutor:
     def create_from_query(self, query: str, data: Any = None) -> Optional[int]:
         self.__cursor.execute(query, data)
         return self.__cursor.lastrowid
+
+
+    def execute(self, query: str, data: Any = None):
+        self.__cursor.execute(query, data)
+        self.__flush_results()
 
 
     def __map_columns_single(self, result: Tuple) -> Dict[str, Any]:

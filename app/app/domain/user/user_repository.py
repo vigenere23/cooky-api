@@ -1,7 +1,13 @@
 from abc import ABC, abstractmethod
+from typing import List
 from app.infra.db.models.user import AccountModel, UserModel, AddressModel
 
 class UserRepository(ABC):
+
+    # FUTURE change to domain entity
+    @abstractmethod
+    def find_all(self) -> List[UserModel]:
+        raise NotImplementedError()
 
     # FUTURE change to domain entity
     @abstractmethod

@@ -8,6 +8,7 @@ from app.api.recipe.recipe_edition_requests import CommentCreationRequest, Ratin
 from app.api.requests import parse_body
 from app.application.recipe.recipe_edition_dto import RecipeEditionDto
 from app.application.recipe.recipe_creation_dto import RecipeCreationDto
+from app.application.recipe.recipe_creation_dto import RecipeCreationInfo
 from app.infra.db.daos.recipe import RecipeIngredientDao, LikeRecipeDao, RecipeRatingDao, RecipeCommentDao
 from app.infra.db.models.recipe import LikeRecipeModel, RatingModel, CommentModel
 from app.infra.db.daos.ingredient import IngredientDao, QuantityUnitDao
@@ -38,12 +39,12 @@ def index():
 @response.handleExceptions
 @parse_body(RecipeCreationRequest)
 def create_recipe(request_body: RecipeCreationRequest):
-    recipe_creation_dto = RecipeCreationDto(recipe={
-        'id_User': current_identity.id,
-        'name': request_body.name,
-        'description': request_body.description,
-        'directives': request_body.directives
-    }, ingredients=request_body.ingredients)
+    recipe_creation_dto = RecipeCreationDto(recipe=RecipeCreationInfo(
+        id_User=current_identity.id,
+        name=request_body.name,
+        description=request_body.description,
+        directives=request_body.directives
+    ), ingredients=request_body.ingredients)
     recipe = recipe_creation_usecase.create_recipe(recipe_creation_dto)
 
     return response.success(asdict(recipe))

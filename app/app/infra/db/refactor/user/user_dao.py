@@ -9,6 +9,10 @@ class UserDao:
     def __init__(self):
         self.__table_name = 'User'
 
+    def find_all(self, executor: MySQLExecutor):
+        results = executor.find_all(self.__table_name)
+        return [UserModel(**result) for result in results]
+
     def find_by_id(self, executor: MySQLExecutor, user_id: int) -> Optional[UserModel]:
         result = executor.find_by_id(self.__table_name, user_id)
         return UserModel(**result) if result else None

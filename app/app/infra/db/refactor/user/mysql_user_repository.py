@@ -1,3 +1,4 @@
+from typing import List
 from app.domain.exceptions import NotFoundException
 from app.domain.user.user_repository import UserRepository
 from app.infra.db.refactor.user.address_dao import AddressDao
@@ -19,6 +20,10 @@ class MysqlUserRepository(UserRepository):
         self.__account_dao = account_dao
         self.__user_dao = user_dao
         self.__address_dao = address_dao
+
+    def find_all(self) -> List[UserModel]:
+        with self.__db_connection.transaction() as executor:
+            return self.__user_dao.find_all()
 
     def find_by_username(self, username: str):
         with self.__db_connection.transaction() as executor:
