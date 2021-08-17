@@ -1,15 +1,14 @@
-from dotenv import load_dotenv
-load_dotenv()
-
 from yoyo import read_migrations, get_backend
 from yoyo.scripts.main import configure_logging
 import os
 import time
+from app.config import config
 
 user = 'root'
-password = os.getenv('MYSQL_ROOT_PASSWORD')
-database = 'projet'
-url = 'localhost:8082'
+password = config['database.root-password']
+database = config['database.database']
+host = config['database.host']
+port = config['database.port']
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -19,7 +18,7 @@ def connect(n_tries: int = 10, timeout: int = 5):
 
     while remaining_tries > 0:
         try:
-            backend = get_backend(f'mysql://{user}:{password}@{url}/{database}')
+            backend = get_backend(f'mysql://{user}:{password}@{host}:{port}/{database}')
             print('Successfully connected to database')
             return backend
         except Exception as e:

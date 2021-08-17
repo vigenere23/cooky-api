@@ -1,6 +1,3 @@
-from dotenv import load_dotenv
-load_dotenv()
-
 import random
 from datetime import datetime
 from app.infra.db.daos.recipe import RecipeCommentDao, RecipeRatingDao, LikeRecipeDao

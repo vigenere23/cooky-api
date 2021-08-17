@@ -1,0 +1,12 @@
+database:
+  host: $MYSQL_HOST|localhost
+  port: $MYSQL_PORT|8082
+  user: api
+  password: api
+  root-password: root
+  database: projet
+
+flask:
+  secret: secret
+  jwt:
+    expiration-in-minutes: 30

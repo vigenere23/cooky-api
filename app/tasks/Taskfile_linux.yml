@@ -67,7 +67,7 @@ tasks:
   migration:apply:
     desc: Apply new database changes
     cmds:
-      - source "{{.VENV_ACTIVATE}}" && python ./app/scripts/migrate.py
+      - source "{{.VENV_ACTIVATE}}" && python -m app.scripts.migrate
     deps:
       - venv:setup
       - :db:start
@@ -75,7 +75,7 @@ tasks:
   migration:rollback:
     desc: Rollback last database change
     cmds:
-      - source "{{.VENV_ACTIVATE}}" && python ./app/scripts/rollback.py
+      - source "{{.VENV_ACTIVATE}}" && python -m app.scripts.rollback
     deps:
       - venv:setup
 

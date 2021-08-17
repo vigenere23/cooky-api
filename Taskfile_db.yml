@@ -5,6 +5,9 @@ tasks:
     desc: Restart db (and rebuild if changed) from docker compose
     cmds:
       - docker-compose up -d db
+    status:
+      - test "$ENVIRONMENT" != "local"
+      - test -n "$ENVIRONMENT"
 
   logs:
     desc: Attach to docker compose logs for db
