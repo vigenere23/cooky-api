@@ -24,15 +24,15 @@ tasks:
   test:
     desc: Run app tests
     cmds:
-      - task: exec:venv
+      - task: exec:docker
         vars: {CLI_ARGS: python -m unittest discover -s test -p '*_test.py'}
 
   lint:
     desc: Run app linting
     cmds:
-      - task: exec:venv
+      - task: exec:docker
         vars: {CLI_ARGS: pylint app}
-      - task: exec:venv
+      - task: exec:docker
         vars: {CLI_ARGS: pylint test}
 
   build:
@@ -41,7 +41,7 @@ tasks:
     cmds:
       - docker-compose build app
     sources:
-      - ./app/**/*.*
+      - ./app/**/*
 
   start:
     desc: Restart app (and rebuild if changed) from docker compose
@@ -90,7 +90,7 @@ tasks:
   exec:docker:
     desc: Execute a command inside the Docker container
     cmds:
-      - docker-compose exec -T app "{{.CLI_ARGS}}"
+      - docker-compose exec -T app {{.CLI_ARGS}}
     deps:
       - start
 

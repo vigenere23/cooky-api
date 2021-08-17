@@ -3,15 +3,15 @@ version: '3'
 tasks:
   build:
     desc: Rebuild ui (if changed) from docker compose
-    dir: '..'
+    dir: ..
     cmds:
       - docker-compose build ui
     sources:
-      - './ui/**/*.*'
+      - ./ui/**/*
 
   start:
     desc: Restart ui (and rebuild if changed) from docker compose
-    dir: '..'
+    dir: ..
     cmds:
       - docker-compose up -d ui
     deps:
@@ -19,7 +19,7 @@ tasks:
 
   logs:
     desc: Attach to docker compose logs for ui
-    dir: '..'
+    dir: ..
     cmds:
       - docker-compose logs -f ui
 

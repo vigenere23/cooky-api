@@ -23,7 +23,7 @@ tasks:
 
   start:
     desc: Start all containers from docker compose
-    cmds:
+    deps:
       - task: app:start
       - task: ui:start
       - task: db:start
