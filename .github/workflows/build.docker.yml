@@ -1,0 +1,73 @@
+name: Build
+
+on:
+  push:
+    branches-ignore:
+      - "master"
+
+jobs:
+  build-app:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checking out
+        uses: actions/checkout@v2
+      
+      - name: Install Taskfile
+        uses: arduino/setup-task@v1
+        with:
+          version: '3.x'
+
+      # PERMISSION ERROR when accessing directory /var/lib/docker
+
+      # - name: Caching dependencies (Docker)
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: /var/lib/docker
+      #     key: ${{ runner.os }}-docker-${{ hashFiles('app/requirements.txt', 'app/Dockerfile', 'docker-compose.yml') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-docker-
+      #       ${{ runner.os }}-
+
+      - name: Setup Docker
+        run: task app:build
+
+      - name: Linting
+        run: task app:lint
+
+      - name: Testing
+        run: task app:test
+
+
+  build-ui:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ui
+
+    steps:
+      - name: Checking out
+        uses: actions/checkout@v2
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Caching dependencies
+        uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Installing dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Linting
+        run: yarn lint
+
+      - name: Building
+        run: yarn build

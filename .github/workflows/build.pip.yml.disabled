@@ -1,9 +1,9 @@
-name: Build (master)
+name: Build
 
 on:
   push:
-    branches:
-      - master
+    branches-ignore:
+      - "master"
 
 jobs:
   build-app:
@@ -17,9 +17,9 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-
+      
       - name: Install Taskfile
-        uses: Arduino/actions/setup-taskfile@master
+        uses: arduino/setup-task@v1
         with:
           version: '3.x'
 
@@ -32,8 +32,8 @@ jobs:
             ${{ runner.os }}-pip-
             ${{ runner.os }}-
 
-      - name: Installing dependencies
-        run: task app:build
+      - name: Setup venv
+        run: task app:venv:setup
 
       - name: Linting
         run: task app:lint

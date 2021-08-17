@@ -1,9 +1,9 @@
-name: Build
+name: Build (master)
 
 on:
   push:
-    branches-ignore:
-      - "master"
+    branches:
+      - master
 
 jobs:
   build-app:
@@ -13,35 +13,12 @@ jobs:
       - name: Checking out
         uses: actions/checkout@v2
 
-      - name: Setting up Python 3.8
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-      
       - name: Install Taskfile
-        uses: Arduino/actions/setup-taskfile@master
+        uses: arduino/setup-task@v1
         with:
           version: '3.x'
 
-      # - name: Caching dependencies (Docker)
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: /var/lib/docker # Error with permissions when accessing directory
-      #     key: ${{ runner.os }}-docker-${{ hashFiles('app/requirements.txt', 'app/Dockerfile', 'docker-compose.yml') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-docker-
-      #       ${{ runner.os }}-
-
-      - name: Caching dependencies (pip)
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('app/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-            ${{ runner.os }}-
-
-      - name: Installing dependencies
+      - name: Setup Docker
         run: task app:build
 
       - name: Linting
