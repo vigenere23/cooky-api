@@ -26,10 +26,10 @@ jobs:
       - name: Caching dependencies
         uses: actions/cache@v2
         with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          path: /var/lib/docker
+          key: ${{ runner.os }}-docker-${{ hashFiles('app/requirements.txt', 'app/Dockerfile', 'docker-compose.yml') }}
           restore-keys: |
-            ${{ runner.os }}-pip-
+            ${{ runner.os }}-docker-
             ${{ runner.os }}-
 
       - name: Installing dependencies
