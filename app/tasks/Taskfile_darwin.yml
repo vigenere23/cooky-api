@@ -65,13 +65,13 @@ tasks:
     desc: Apply new database changes
     cmds:
       - task: exec:docker
-        vars: {CLI_ARGS: python -m app.scripts.migrate}
+        vars: {CLI_ARGS: python -m scripts.migrate}
 
   migration:rollback:
     desc: Rollback last database change
     cmds:
       - task: exec:docker
-        vars: {CLI_ARGS: python -m app.scripts.rollback}
+        vars: {CLI_ARGS: python -m scripts.rollback}
 
   migration:new:
     desc: Create new database migration
@@ -83,7 +83,7 @@ tasks:
     desc: Fill database with fake data
     cmds:
       - task: exec:docker
-        vars: {CLI_ARGS: python -m app.scripts.fill_db}
+        vars: {CLI_ARGS: python -m scripts.fill_db}
 
   exec:docker:
     desc: Execute a command inside an new Docker container instance
