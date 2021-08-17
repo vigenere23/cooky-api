@@ -1,16 +1,22 @@
-from dataclasses import asdict
 import time
-from mysql.connector import MySQLConnection
-from mysql.connector import connect
-from app.config import DatabaseConfig
+from mysql.connector import connect, MySQLConnection
+from app.config import config
 
 
-def connect_to_mysql(config: DatabaseConfig, n_tries: int = 10, timeout: int = 5) -> MySQLConnection:
+def connect_to_mysql(n_tries: int = 10, timeout: int = 5) -> MySQLConnection:
     remaining_tries = n_tries
 
     while remaining_tries > 0:
         try:
-            connection = connect(**asdict(config))
+            connection = connect(
+                host=config['database.host'],
+                port=config['database.port'],
+                database=config['database.database'],
+                user=config['database.user'],
+                password=config['database.password'],
+                connection_timeout=5,
+                use_pure=True
+            )
             print('Successfully connected to database')
             return connection
         except Exception as e:

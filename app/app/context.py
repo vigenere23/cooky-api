@@ -1,5 +1,4 @@
 import logging
-from app.config import config
 from app.mysql_connection import connect_to_mysql
 from app.infra.db.mysql_database_connection import MySQLDBConnection
 from app.infra.db.db_connector import DBConnector
@@ -22,7 +21,7 @@ from app.application.account.user_editing_usecase import UserEditingUseCase
 
 
 logger = logging.getLogger('gunicorn.error')
-mysql_connection = connect_to_mysql(config.database)
+mysql_connection = connect_to_mysql()
 
 db_connection = MySQLDBConnection(mysql_connection)
 db = DBConnector(db_connection)
