@@ -22,16 +22,18 @@ tasks:
       - venv:setup
 
   test:
-    desc: Run app tests (within virtual env)
+    desc: Run app tests
     cmds:
-      - task: exec:venv
+      - task: exec:docker
         vars: {CLI_ARGS: python -m unittest discover -s test -p '*_test.py'}
 
   lint:
-    desc: Run app linting (within virtual env)
+    desc: Run app linting
     cmds:
-      - task: exec:venv
-        vars: {CLI_ARGS: pylint app && pylint test}
+      - task: exec:docker
+        vars: {CLI_ARGS: pylint app}
+      - task: exec:docker
+        vars: {CLI_ARGS: pylint test}
 
   build:
     desc: Rebuild app (if changed) from docker compose
@@ -64,21 +66,19 @@ tasks:
   migration:apply:
     desc: Apply new database changes
     cmds:
-      - task: exec:venv
+      - task: exec:docker
         vars: {CLI_ARGS: python -m app.scripts.migrate}
-    deps:
-      - :db:start
 
   migration:rollback:
     desc: Rollback last database change
     cmds:
-      - task: exec:venv
+      - task: exec:docker
         vars: {CLI_ARGS: python -m app.scripts.rollback}
 
   migration:new:
     desc: Create new database migration
     cmds:
-      - task: exec:venv
+      - task: exec:venv # TODO find a way to use this inside Docker
         vars: {CLI_ARGS: "yoyo new ./migrations -m '{{.DESC}}'"}
 
   populate:
