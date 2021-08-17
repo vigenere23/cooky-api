@@ -9,7 +9,7 @@ tasks:
     desc: Creates virtual env and installs dependencies
     cmds:
       - python3 -m venv "{{.VENV_DIR}}"
-      - source "{{.VENV_ACTIVATE}}" && pip install --upgrade pip && pip install -r requirements.txt
+      - source {{.VENV_ACTIVATE}} && pip install --upgrade pip && pip install -r requirements.txt
     status:
       - test -d "{{.VENV_DIR}}"
 
@@ -22,18 +22,18 @@ tasks:
       - venv:setup
 
   test:
-    desc: Run app tests (within virtual env)
+    desc: Run app tests
     cmds:
-      - source "{{.VENV_ACTIVATE}}" && python -m unittest discover -s test -p '*_test.py'
-    deps:
-      - venv:setup
+      - task: exec:docker
+        vars: {CLI_ARGS: python -m unittest discover -s test -p '*_test.py'}
 
   lint:
-    desc: Run app linting (within virtual env)
+    desc: Run app linting
     cmds:
-      - source "{{.VENV_ACTIVATE}}" && pylint app && pylint test
-    deps:
-      - venv:setup
+      - task: exec:docker
+        vars: {CLI_ARGS: pylint app}
+      - task: exec:docker
+        vars: {CLI_ARGS: pylint test}
 
   build:
     desc: Rebuild app (if changed) from docker compose
@@ -41,13 +41,12 @@ tasks:
     cmds:
       - docker-compose build app
     sources:
-      - ./app/**/*.*
+      - ./app/**/*
 
   start:
     desc: Restart app (and rebuild if changed) from docker compose
     dir: ..
     cmds:
-      - task: migration:apply
       - docker-compose up -d app
     deps:
       - build
@@ -67,28 +66,37 @@ tasks:
   migration:apply:
     desc: Apply new database changes
     cmds:
-      - source "{{.VENV_ACTIVATE}}" && python -m app.scripts.migrate
-    deps:
-      - venv:setup
-      - :db:start
+      - task: exec:docker
+        vars: {CLI_ARGS: python -m app.scripts.migrate}
 
   migration:rollback:
     desc: Rollback last database change
     cmds:
-      - source "{{.VENV_ACTIVATE}}" && python -m app.scripts.rollback
-    deps:
-      - venv:setup
+      - task: exec:docker
+        vars: {CLI_ARGS: python -m app.scripts.rollback}
 
   migration:new:
     desc: Create new database migration
     cmds:
-      - source "{{.VENV_ACTIVATE}}" && yoyo new ./migrations -m "{{.DESC}}"
-    deps:
-      - venv:setup
+      - task: exec:venv # TODO find a way to use this inside Docker
+        vars: {CLI_ARGS: "yoyo new ./migrations -m '{{.DESC}}'"}
 
   populate:
     desc: Fill database with fake data
     cmds:
-      - source "{{.VENV_ACTIVATE}}" && python -m app.scripts.fill_db
+      - task: exec:docker
+        vars: {CLI_ARGS: python -m app.scripts.fill_db}
+
+  exec:docker:
+    desc: Execute a command inside the Docker container
+    cmds:
+      - docker-compose run --rm -T app {{.CLI_ARGS}}
+    deps:
+      - build
+
+  exec:venv:
+    desc: Execute a command inside the Python venv
+    cmds:
+      - source {{.VENV_ACTIVATE}} && {{.CLI_ARGS}}
     deps:
       - venv:setup

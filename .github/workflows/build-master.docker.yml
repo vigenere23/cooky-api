@@ -13,27 +13,13 @@ jobs:
       - name: Checking out
         uses: actions/checkout@v2
 
-      - name: Setting up Python 3.8
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-
       - name: Install Taskfile
-        uses: Arduino/actions/setup-taskfile@master
+        uses: arduino/setup-task@v1
         with:
           version: '3.x'
 
-      - name: Caching dependencies
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-            ${{ runner.os }}-
-
-      - name: Installing dependencies
-        run: task app:venv:setup
+      - name: Setup Docker
+        run: task app:build
 
       - name: Linting
         run: task app:lint

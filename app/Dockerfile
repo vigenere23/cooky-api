@@ -1,8 +1,9 @@
-FROM python:3.8.11-alpine
+# FROM python:3.8.11-apline
+FROM python:3.8.11-slim-bullseye
 
 WORKDIR /app
 
-RUN apk add gcc musl-dev libffi-dev openssl-dev cargo
+# RUN apk add gcc musl-dev libffi-dev openssl-dev cargo
 
 RUN pip install --upgrade pip
 

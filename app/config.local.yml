@@ -1,6 +1,6 @@
 database:
-  host: $MYSQL_HOST|localhost
-  port: $MYSQL_PORT|8082
+  host: $MYSQL_HOST
+  port: $MYSQL_PORT
   user: api
   password: '1234'
   root-password: '12345'

@@ -19,20 +19,20 @@ jobs:
           python-version: 3.8
       
       - name: Install Taskfile
-        uses: Arduino/actions/setup-taskfile@master
+        uses: arduino/setup-task@v1
         with:
           version: '3.x'
 
-      - name: Caching dependencies
+      - name: Caching dependencies (pip)
         uses: actions/cache@v2
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('app/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
             ${{ runner.os }}-
 
-      - name: Installing dependencies
+      - name: Setup venv
         run: task app:venv:setup
 
       - name: Linting

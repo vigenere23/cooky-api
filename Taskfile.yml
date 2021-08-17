@@ -17,13 +17,13 @@ tasks:
   default: source ./art.sh
 
   destroy:
-    desc: Delete images, volumes and containers from docker compose
+    desc: Delete images and containers from docker compose
     cmds:
       - docker-compose down
 
   start:
     desc: Start all containers from docker compose
-    cmds:
+    deps:
       - task: app:start
       - task: ui:start
       - task: db:start
