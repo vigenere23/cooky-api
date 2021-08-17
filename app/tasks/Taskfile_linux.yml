@@ -24,15 +24,15 @@ tasks:
   test:
     desc: Run app tests
     cmds:
-      - task: exec:docker
+      - task: exec:venv
         vars: {CLI_ARGS: python -m unittest discover -s test -p '*_test.py'}
 
   lint:
     desc: Run app linting
     cmds:
-      - task: exec:docker
+      - task: exec:venv
         vars: {CLI_ARGS: pylint app}
-      - task: exec:docker
+      - task: exec:venv
         vars: {CLI_ARGS: pylint test}
 
   build:
@@ -84,13 +84,13 @@ tasks:
   populate:
     desc: Fill database with fake data
     cmds:
-      - task: exec:venv
+      - task: exec:docker
         vars: {CLI_ARGS: python -m app.scripts.fill_db}
 
   exec:docker:
     desc: Execute a command inside the Docker container
     cmds:
-      - docker-compose exec -T app {{.CLI_ARGS}}
+      - docker-compose exec -T app "{{.CLI_ARGS}}"
     deps:
       - start
 

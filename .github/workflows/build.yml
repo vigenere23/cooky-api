@@ -23,17 +23,26 @@ jobs:
         with:
           version: '3.x'
 
-      - name: Caching dependencies
+      # - name: Caching dependencies (Docker)
+      #   uses: actions/cache@v2
+      #   with:
+      #     path: /var/lib/docker # Error with permissions when accessing directory
+      #     key: ${{ runner.os }}-docker-${{ hashFiles('app/requirements.txt', 'app/Dockerfile', 'docker-compose.yml') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-docker-
+      #       ${{ runner.os }}-
+
+      - name: Caching dependencies (pip)
         uses: actions/cache@v2
         with:
-          path: /var/lib/docker
-          key: ${{ runner.os }}-docker-${{ hashFiles('app/requirements.txt', 'app/Dockerfile', 'docker-compose.yml') }}
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('app/requirements.txt') }}
           restore-keys: |
-            ${{ runner.os }}-docker-
+            ${{ runner.os }}-pip-
             ${{ runner.os }}-
 
       - name: Installing dependencies
-        run: task app:build
+        run: task app:venv:setup
 
       - name: Linting
         run: task app:lint

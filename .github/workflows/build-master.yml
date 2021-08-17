@@ -23,17 +23,17 @@ jobs:
         with:
           version: '3.x'
 
-      - name: Caching dependencies
+      - name: Caching dependencies (pip)
         uses: actions/cache@v2
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('app/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
             ${{ runner.os }}-
 
       - name: Installing dependencies
-        run: task app:build
+        run: task app:venv:setup
 
       - name: Linting
         run: task app:lint
