@@ -8,15 +8,20 @@ Welcome to Cooky, the amazing recipe sharing app that let's you buy ingredients 
 
 ## Setup
 
-This project uses [Taskfile](https://taskfile.dev/#/) for managing task commandsand [Docker Compose](https://docs.docker.com/compose/) to manage machine environments. Please install them before continuing.
+### Requirements
 
-### Running
+- [Taskfile](https://taskfile.dev/#/) for managing task commands
+- [Docker Compose](https://docs.docker.com/compose/) for managing machine environments
+
+### Quick start
+
+To start all 3 services with their setups, run
 
 ```shell
 task start+logs
 ```
 
-This will destroy, build, and reup the Docker compose network and services.
+A bunch of other commands are available to start in background, rebuild and setup single services. Use `task --list` to list all available tasks.
 
 **Exposed ports**:
 
