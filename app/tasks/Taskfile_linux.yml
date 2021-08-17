@@ -90,7 +90,7 @@ tasks:
   exec:docker:
     desc: Execute a command inside the Docker container
     cmds:
-      - docker-compose exec app {{.CLI_ARGS}}
+      - docker-compose exec -T app {{.CLI_ARGS}}
     deps:
       - start
 
