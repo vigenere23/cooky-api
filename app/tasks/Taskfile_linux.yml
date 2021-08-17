@@ -90,9 +90,9 @@ tasks:
   exec:docker:
     desc: Execute a command inside the Docker container
     cmds:
-      - docker-compose exec -T app {{.CLI_ARGS}}
+      - docker-compose run --rm -T app {{.CLI_ARGS}}
     deps:
-      - start
+      - build
 
   exec:venv:
     desc: Execute a command inside the Python venv
