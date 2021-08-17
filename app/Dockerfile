@@ -1,6 +1,8 @@
-FROM python:3.8
+FROM python:3.8.11-alpine
 
 WORKDIR /app
+
+RUN apk add gcc musl-dev libffi-dev openssl-dev cargo
 
 RUN pip install --upgrade pip
 

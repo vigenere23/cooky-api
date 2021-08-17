@@ -2,9 +2,9 @@ database:
   host: $MYSQL_HOST|localhost
   port: $MYSQL_PORT|8082
   user: api
-  password: api
-  root-password: root
-  database: projet
+  password: '1234'
+  root-password: '12345'
+  database: cooky
 
 flask:
   secret: secret

@@ -1,5 +1,5 @@
 import time
-from mysql.connector import connect, MySQLConnection
+from mysql.connector import MySQLConnection
 from app.config import config
 
 
@@ -8,14 +8,13 @@ def connect_to_mysql(n_tries: int = 10, timeout: int = 5) -> MySQLConnection:
 
     while remaining_tries > 0:
         try:
-            connection = connect(
+            connection = MySQLConnection(
                 host=config['database.host'],
                 port=config['database.port'],
                 database=config['database.database'],
                 user=config['database.user'],
                 password=config['database.password'],
-                connection_timeout=5,
-                use_pure=True
+                connection_timeout=5
             )
             print('Successfully connected to database')
             return connection
