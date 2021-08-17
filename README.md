@@ -11,7 +11,7 @@ Welcome to Cooky, the amazing recipe sharing app that let's you buy ingredients 
 ### Requirements
 
 - [Taskfile](https://taskfile.dev/#/) for managing task commands
-- [Docker Compose](https://docs.docker.com/compose/) for managing machine environments
+- [Docker](https://docs.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) for managing machine environments
 
 ### Quick start
 
