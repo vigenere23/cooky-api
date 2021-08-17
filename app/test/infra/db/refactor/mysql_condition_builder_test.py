@@ -1,5 +1,5 @@
 import unittest
-from app.infra.db.refactor.mysql_condition_builder import MysqlConditionBuilder
+from src.infra.db.refactor.mysql_condition_builder import MysqlConditionBuilder
 from unittest import TestCase
 
 class MysqlConditionBuilderTest(TestCase):

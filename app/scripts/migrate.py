@@ -2,7 +2,7 @@ from yoyo import read_migrations, get_backend
 from yoyo.scripts.main import configure_logging
 import os
 import time
-from app.config import config
+from src.config import config
 
 user = 'root'
 password = config['database.root-password']

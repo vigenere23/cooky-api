@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from unittest import TestCase, main
 from assertpy import assert_that
-from app.infra.db.refactor.mysql_model import MysqlModel
+from src.infra.db.refactor.mysql_model import MysqlModel
 
 @dataclass
 class SomeModel(MysqlModel):
