@@ -86,7 +86,7 @@ tasks:
         vars: {CLI_ARGS: python -m app.scripts.fill_db}
 
   exec:docker:
-    desc: Execute a command inside the Docker container
+    desc: Execute a command inside an new Docker container instance
     cmds:
       - docker-compose run --rm -T app bash -c "{{.CLI_ARGS}}"
     deps:

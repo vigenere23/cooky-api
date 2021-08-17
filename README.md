@@ -27,7 +27,7 @@ A bunch of other commands are available to start in background, rebuild and setu
 
 - UI : 8080
 - API : 8081
-- DB : 8082
+- DB : *Not exposed*
 
 **Test credentials**:
 

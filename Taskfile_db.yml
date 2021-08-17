@@ -21,6 +21,6 @@ tasks:
       - task: logs
 
   exec:
-    desc: Execute mysql inside the db container
+    desc: Execute mysql inside the running db container
     cmds:
       - docker-compose exec db mysql -u root -p
