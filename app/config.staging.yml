@@ -1,0 +1,12 @@
+database:
+  host: $MYSQL_HOST
+  port: $MYSQL_PORT
+  user: $MYSQL_API_USER
+  password: $MYSQL_API_PASSWORD
+  root-password: $MYSQL_ROOT_PASSWORD
+  database: cooky
+
+flask:
+  secret: $FLASK_SECRET
+  jwt:
+    expiration-in-minutes: 30
