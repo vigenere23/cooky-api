@@ -18,7 +18,7 @@ class IngredientDao(BaseDao):
             raise ValueError(
                 "ingredientModel should be of type IngredientModel")
 
-        query = 'INSERT INTO Ingredient (id, id_IngredientType, id_QuantityUnit, name, baseCost, baseQuantity) VALUES (%s, %s, %s, %s, %s, %s)'
+        query = 'INSERT INTO Ingredient (id, id_IngredientType, ingredientType, id_QuantityUnit, name, baseCost, baseQuantity) VALUES (%s, %s, %s, %s, %s, %s)'
         ingredientId = db.create(query, self._mapper.to_tuple(ingredientModel))
 
         if ingredientId:
