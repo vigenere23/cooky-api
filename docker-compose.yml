@@ -13,6 +13,8 @@ services:
       PYTHONUNBUFFERED: "TRUE"
       MYSQL_HOST: ${MYSQL_HOST:-db}
       MYSQL_PORT: ${MYSQL_PORT:-3306}
+    volumes:
+      - ./app:/app
     ports:
       - ${PORT:-8081}:5000
 

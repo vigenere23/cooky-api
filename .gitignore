@@ -1,3 +1,4 @@
 .vscode/
 .task/
 .env
+**/.DS_STORE
