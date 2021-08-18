@@ -36,7 +36,7 @@ A bunch of other commands are available to start in background, rebuild and setu
 
 ## API Documentation
 
-Available [here](./api_doc/README.md).
+Available [here](./app/doc/README.md).
 
 ## Contributors
 
