@@ -29,6 +29,8 @@ services:
       - mysql-data:/var/lib/mysql
     security_opt:
       - seccomp:unconfined
+    ports:
+      - ${PORT:-8082}:3306
 
 volumes:
   mysql-data:
