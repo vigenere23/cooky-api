@@ -2,7 +2,8 @@ from flask import Flask
 from flask_cors import CORS
 from src.context import logger
 from src.api.main import main_controller
-from src.api import ingredients_controller, auth
+from src.api import auth
+from src.api.ingredient import ingredients_controller
 from src.api.recipe import recipes_controller
 from src.api.cart import cart_controller, command_controller
 from src.api.user import user_controller, users_controller, account_controller, accounts_controller
