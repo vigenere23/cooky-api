@@ -1,7 +1,7 @@
 version: '3'
 
 tasks:
-  build:
+  build:docker:
     desc: Rebuild ui (if changed) from docker compose
     dir: ..
     cmds:
@@ -9,17 +9,27 @@ tasks:
     sources:
       - ./ui/**/*
 
+  build:
+    desc: Build node project inside Docker machine
+    cmds:
+      - task: exec:docker
+        vars: {CLI_ARGS: yarn build}
+
+  lint:
+    desc: Lint files
+    cmds:
+      - task: exec:docker
+        vars: {CLI_ARGS: yarn lint}
+
   start:
     desc: Restart ui (and rebuild if changed) from docker compose
-    dir: ..
     cmds:
       - docker-compose up -d ui
     deps:
-      - build
+      - build:docker
 
   logs:
     desc: Attach to docker compose logs for ui
-    dir: ..
     cmds:
       - docker-compose logs -f ui
 
@@ -28,3 +38,10 @@ tasks:
     cmds:
       - task: start
       - task: logs
+
+  exec:docker:
+    desc: Execute a command inside an new Docker container instance
+    cmds:
+      - docker-compose run --rm -T ui sh -c "{{.CLI_ARGS}}"
+    deps:
+      - build:docker

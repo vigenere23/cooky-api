@@ -23,10 +23,10 @@ tasks:
 
   start:
     desc: Start all containers from docker compose
-    deps:
+    cmds:
+      - task: db:start
       - task: app:start
       - task: ui:start
-      - task: db:start
 
   logs:
     desc: Attach to docker compose logs

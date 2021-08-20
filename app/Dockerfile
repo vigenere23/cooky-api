@@ -1,17 +1,13 @@
-# FROM python:3.8.11-apline
 FROM python:3.8.11-slim-bullseye
 
 WORKDIR /app
 
-# RUN apk add gcc musl-dev libffi-dev openssl-dev cargo
 
 RUN pip install --upgrade pip
 
 COPY requirements.txt .
-
 RUN pip install -r requirements.txt
 
-COPY . .
 
 EXPOSE 5000
 
