@@ -33,8 +33,13 @@ def connect(n_tries: int = 10, timeout: int = 5):
 
 
 def main():
+    migrations_path = os.path.join(current_dir, '..', 'migrations')
+
+    if not os.path.isdir(migrations_path):
+        raise RuntimeError(f"No migrations directory found at path '{migrations_path}'")
+
+    migrations = read_migrations(migrations_path)
     backend = connect()
-    migrations = read_migrations(os.path.join(current_dir, '..', '..', 'migrations'))
 
     print('Rollbacking migrations... (this can take a long time)')
     configure_logging(2)
