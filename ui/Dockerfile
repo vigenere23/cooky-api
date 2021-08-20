@@ -1,14 +1,12 @@
-FROM node:lts-alpine
+FROM node:14-alpine
 
-WORKDIR /
 
-COPY package.json ./
-COPY yarn.lock ./
+WORKDIR /app
 
-RUN yarn install
-
-COPY . .
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
 
 EXPOSE 8080
 
-CMD ["yarn", "serve-dockercompose"]
+ENTRYPOINT []
+CMD yarn serve
