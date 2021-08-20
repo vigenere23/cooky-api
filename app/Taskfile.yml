@@ -11,7 +11,7 @@ tasks:
     desc: Run app linting
     cmds:
       - task: exec:docker
-        vars: {CLI_ARGS: pylint src && pylint test}
+        vars: {CLI_ARGS: pylint --jobs=0 src test}
 
   build:docker:
     desc: Rebuild app (if changed) from docker compose
