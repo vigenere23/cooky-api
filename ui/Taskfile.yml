@@ -6,8 +6,6 @@ tasks:
     dir: ..
     cmds:
       - docker-compose build ui
-    sources:
-      - ./ui/**/*
 
   build:
     desc: Build node project inside Docker machine

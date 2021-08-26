@@ -41,7 +41,7 @@ def main():
     migrations = read_migrations(migrations_path)
     backend = connect()
 
-    print('Applying migrations... (this can take a long time)')
+    print('Applying migrations...')
     configure_logging(2)
 
     with backend.lock():

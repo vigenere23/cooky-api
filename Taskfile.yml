@@ -16,8 +16,8 @@ includes:
 tasks:
   default: source ./art.sh
 
-  destroy:
-    desc: Delete images and containers from docker compose
+  stop:
+    desc: Stop all containers
     cmds:
       - docker-compose down
 
@@ -27,6 +27,16 @@ tasks:
       - task: db:start
       - task: app:start
       - task: ui:start
+
+  destroy:
+    desc: Destroy all images (one level)
+    cmds:
+      - docker-compose down --rmi local --remove-orphans
+
+  destroy:more:
+    desc: Destroy all images (one level) and volumes
+    cmds:
+      - docker-compose down --rmi local -v --remove-orphans
 
   logs:
     desc: Attach to docker compose logs
@@ -38,3 +48,10 @@ tasks:
     cmds:
       - task: start
       - task: logs
+
+  setup:local:
+    desc: Setup all services to be ready for use
+    cmds:
+      - task: db:start
+      - task: app:migration:apply
+      - task: app:populate

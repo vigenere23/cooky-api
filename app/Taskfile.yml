@@ -18,8 +18,6 @@ tasks:
     dir: ..
     cmds:
       - docker-compose build app
-    sources:
-      - ./app/**/*
 
   start:
     desc: Restart app (and rebuild if changed) from docker compose
