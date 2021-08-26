@@ -15,7 +15,13 @@ Welcome to Cooky, the amazing recipe sharing app that let's you buy ingredients 
 
 ### Quick start
 
-To start all 3 services with their setups, run
+To setup a local database with migrations and fake data, run :
+
+```shell
+task setup:local
+```
+
+To start all 3 services, run
 
 ```shell
 task start+logs
