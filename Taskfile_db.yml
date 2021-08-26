@@ -1,6 +1,14 @@
 version: '3'
 
 tasks:
+  setup:local:
+    desc: Setup all services to be ready for use
+    cmds:
+      - task: migrate
+      - task: populate
+    deps:
+      - task: start
+
   start:
     desc: Restart db (and rebuild if changed) from docker compose
     cmds:
@@ -19,6 +27,30 @@ tasks:
     cmds:
       - task: start
       - task: logs
+
+  migrate:
+    desc: Apply new database changes
+    cmds:
+      - task: :exec:docker
+        vars: {CLI_ARGS: python -m scripts.migrate}
+
+  rollback:
+    desc: Rollback last database change
+    cmds:
+      - task: :exec:docker
+        vars: {CLI_ARGS: python -m scripts.rollback}
+
+  migration:
+    desc: Create new database migration
+    cmds:
+      - task: :exec:docker
+        vars: {CLI_ARGS: "yoyo new ./migrations -m '{{.DESC}}'"}
+
+  populate:
+    desc: Fill database with fake data
+    cmds:
+      - task: :exec:docker
+        vars: {CLI_ARGS: python -m scripts.fill_db}
 
   exec:
     desc: Execute mysql inside the running db container

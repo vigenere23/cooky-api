@@ -3,7 +3,7 @@ name: Build
 on:
   push:
     branches-ignore:
-      - "master"
+      - master
 
 jobs:
   build-app:
@@ -19,32 +19,10 @@ jobs:
           version: '3.x'
 
       - name: Building Docker image
-        run: task app:build:docker
+        run: task build
 
       - name: Linting
-        run: task app:lint
+        run: task lint
 
       - name: Testing
-        run: task app:test
-
-
-  build-ui:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checking out
-        uses: actions/checkout@v2
-
-      - name: Install Taskfile
-        uses: arduino/setup-task@v1
-        with:
-          version: '3.x'
-
-      - name: Building Docker image
-        run: task ui:build:docker
-
-      - name: Linting
-        run: task ui:lint
-
-      - name: Building
-        run: task ui:build
+        run: task test

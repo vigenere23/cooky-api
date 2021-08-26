@@ -18,10 +18,10 @@ Welcome to Cooky, the amazing recipe sharing app that let's you buy ingredients 
 To setup a local database with migrations and fake data, run :
 
 ```shell
-task setup:local
+task db:setup:local
 ```
 
-To start all 3 services, run
+To start the app, run :
 
 ```shell
 task start+logs
